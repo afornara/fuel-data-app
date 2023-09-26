@@ -1,0 +1,25 @@
+name: Update Fuel Data
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # esegui alle 00:00 ogni giorno
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Run script
+      run: python csv_merge_3.py  # sostituisci con il nome del tuo script
+
+    - name: Commit and push
+      run: |
+        git config user.name "Your Name"
+        git config user.email "your-email@example.com"
+        git add .
+        git commit -m "Daily data update"
+        git push
