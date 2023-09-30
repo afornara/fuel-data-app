@@ -1,0 +1,38 @@
+name: Update Fuel Data
+
+on:
+  schedule:
+    - cron: '0 14 * * *'  # esegui alle 14:00 ogni giorno
+
+jobs:
+  update_data:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Ottenere il codice dal repository
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Installare Python e le dipendenze necessarie
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+
+    # Eseguire lo script Python
+    - name: Run script
+      run: python csv_merge_3.py
+
+    # Commit e push del file JSON risultante
+    - name: Commit and push
+      run: |
+        git config user.name "GitHub Action"
+        git config user.email "action@github.com"
+        git add merged_data.json
+        git commit -m "Daily data update"
+        git push
