@@ -2,7 +2,7 @@ name: Update Fuel Data
 
 on:
   schedule:
-    - cron: '0 14 * * *'  # esegui alle 14:00 ogni giorno
+    - cron: '0 18 * * *'  # esegui alle 14:00 ogni giorno
 
 jobs:
   update_data:
@@ -36,3 +36,5 @@ jobs:
         git add merged_data.json
         git commit -m "Daily data update"
         git push
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
