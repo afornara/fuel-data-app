@@ -2,7 +2,7 @@ name: Update Fuel Data
 
 on:
   schedule:
-    - cron: '0 17 * * *'  # esegui alle 14:00 ogni giorno
+    - cron: '0 1 * * *'  # esegui alle 14:00 ogni giorno
 
 jobs:
   update_data:
@@ -29,11 +29,12 @@ jobs:
       run: python csv_merge_3.py
 
     # Commit e push del file JSON risultante
-    - name: Commit and push
+    - name: Push changes
       run: |
         git config user.name "GitHub Action"
         git config user.email "action@github.com"
         git add merged_data.json
         git commit -m "Daily data update"
-        git push https://${{secrets.GITHUB_TOKEN}}@github.com/afornara/fuel-data-app.git HEAD:main
+        git push https://***:${{ secrets.GH_PAT }}@github.com/afornara/fuel-data-app.git HEAD:main
+
 
