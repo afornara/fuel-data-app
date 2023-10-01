@@ -2,7 +2,7 @@ name: Update Fuel Data
 
 on:
   schedule:
-    - cron: '45 10 * * *'  # esegui alle 14:00 ogni giorno
+    - cron: '0 12 * * *'  # esegui alle 14:00 ogni giorno
 
 jobs:
   update_data:
