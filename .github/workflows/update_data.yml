@@ -35,6 +35,5 @@ jobs:
         git config user.email "action@github.com"
         git add merged_data.json
         git commit -m "Daily data update"
-        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/afornara/fuel-data-app.git
-        git push origin HEAD:main
+        git push https://${{secrets.GITHUB_TOKEN}}@github.com/afornara/fuel-data-app.git HEAD:main
 
