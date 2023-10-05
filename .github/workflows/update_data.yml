@@ -1,40 +1,43 @@
-name: Update Fuel Data
+name: Update CSV Data and Merge
 
 on:
   schedule:
-    - cron: '0 1 * * *'  # esegui alle 14:00 ogni giorno
+    - cron: '22 0 * * *'  # Esegue alle 11:45 AM ora italiana (UTC+2)
 
 jobs:
-  update_data:
+  update-data:
     runs-on: ubuntu-latest
-
     steps:
-    # Ottenere il codice dal repository
-    - name: Checkout code
+    
+    # Checkout del codice sorgente
+    - name: Checkout repository
       uses: actions/checkout@v2
 
-    # Installare Python e le dipendenze necessarie
-    - name: Set up Python
+    # Configura Python
+    - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
 
+    # Installa le dipendenze
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install requests
 
-    # Eseguire lo script Python
-    - name: Run script
-      run: python csv_merge_3.py
+    # Esegue lo script per unire i CSV
+    - name: Merge CSV data
+      run: python ./csv_merge_3.py
 
-    # Commit e push del file JSON risultante
-    - name: Push changes
+    # Configura Git con PAT
+    - name: Setup Git with PAT
+      run: git config --global url."https://${{ secrets.GH_PAT }}@github.com/".insteadOf "https://github.com/"
+
+    # Fai il commit e il push dei cambiamenti
+    - name: Commit and Push changes
       run: |
         git config user.name "GitHub Action"
         git config user.email "action@github.com"
         git add merged_data.json
         git commit -m "Daily data update"
-        git push https://***:${{ secrets.GH_PAT }}@github.com/afornara/fuel-data-app.git HEAD:main
-
-
+        git push origin HEAD:main
