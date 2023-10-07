@@ -3,6 +3,7 @@ name: Update CSV Data and Merge
 on:
   schedule:
     - cron: '22 15 * * *'  # Esegue alle 11:45 AM ora italiana (UTC+2)
+  workflow_dispatch: 
 
 jobs:
   update-data:
