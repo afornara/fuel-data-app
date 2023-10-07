@@ -6,10 +6,10 @@ import json
 def get_csv_data(url):
     response = requests.get(url)
     data = response.text.splitlines()[1:]  # Ignora la prima riga
-    return csv.DictReader(data, delimiter=';')
+    return list(csv.DictReader(data, delimiter=';'))  # Converti in lista
 
 # Carica entrambi i file
-file2_data = get_csv_data('https://www.mise.gov.it/images/exportCSV/prezzo_alle_8.csv')
+file2_data_list = get_csv_data('https://www.mise.gov.it/images/exportCSV/prezzo_alle_8.csv')  # Ora è una lista
 file1_data = get_csv_data('https://www.mise.gov.it/images/exportCSV/anagrafica_impianti_attivi.csv')
 
 # Effettua la fusione
@@ -20,7 +20,7 @@ for row1 in file1_data:
     merged_row = row1.copy()  # Inizia con i dati da file1
     merged_row['prezzi'] = []  # Crea una lista vuota per i dati corrispondenti da file2
 
-    for row2 in file2_data:
+    for row2 in file2_data_list:  # Ora usi la lista
         if row1["idImpianto"] == row2["idImpianto"]:
             merged_row['prezzi'].append(row2)  # Aggiunge i dati da file2 alla lista
 
